@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: main-service
+
+server:
+  port: 8094
+
+eureka:
+  client:
+    region: default
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://localhost:8091/eureka/

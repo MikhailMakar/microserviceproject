@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: middleware-service
+
+server:
+  port: 8093
+
+eureka:
+  client:
+    region: default
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://localhost:8091/eureka/

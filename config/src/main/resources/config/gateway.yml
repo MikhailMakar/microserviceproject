@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: gateway
+
+server:
+  port: 8092
+
+eureka:
+  client:
+    region: default
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://localhost:8091/eureka/
+
+zuul:
+  routes:
+    middleware-service:
+      path: /middleware-service/**
+    main-service:
+      path: /main-service/**
+    discovery:
+      path: /discovery/**
+      url: http://localhost:8091

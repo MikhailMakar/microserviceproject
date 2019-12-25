@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    config:
+      name: main-service
+      discovery:
+        enabled: true
+        service_id: config
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8091/eureka/
