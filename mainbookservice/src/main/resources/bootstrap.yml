@@ -2,9 +2,7 @@ spring:
   cloud:
     config:
       name: main-service
-      discovery:
-        enabled: true
-        service_id: config
+      uri: http://localhost:8090
 
 eureka:
   client:
