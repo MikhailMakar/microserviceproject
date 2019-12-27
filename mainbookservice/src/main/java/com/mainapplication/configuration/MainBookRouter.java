@@ -23,6 +23,6 @@ public class MainBookRouter {
                 .route(GET("/book/{id}").and(accept(APPLICATION_JSON)), mainBookHandler::getBook)
                 .andRoute(GET("/book").and(accept(APPLICATION_JSON)), mainBookHandler::listBooks)
                 .andRoute(POST("/book/create").and(contentType(APPLICATION_JSON)), mainBookHandler::createBook)
-                .andRoute(PUT("book/update").and(contentType(APPLICATION_JSON)), mainBookHandler::updateBook);
+                .andRoute(PUT("book/{id}/update").and(contentType(APPLICATION_JSON)), mainBookHandler::updateBook);
     }
 }

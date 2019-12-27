@@ -1,12 +1,14 @@
 package com.mainapplication.repository;
 
 import com.mainapplication.model.Book;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
 public class BookRepositoryImpl implements BookRepository {
 
     Map<Integer, Book> bookMap = new ConcurrentHashMap<>();
@@ -23,15 +25,13 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Mono<Book> updateBook(Mono<Book> book) {
-        return null;
+    public Mono<Book> updateBook(Mono<Book> book, int id) {
+        return book.doOnNext(value -> bookMap.put(id, value));
     }
 
     @Override
     public Mono<Void> saveBook(Mono<Book> book) {
-        Mono<Book> bookMono = book.doOnNext(value -> {
-            bookMap.put((bookMap.keySet().size() + 1), value);
-        });
+        Mono<Book> bookMono = book.doOnNext(value -> bookMap.put((bookMap.keySet().size() + 1), value));
         return bookMono.then();
     }
 

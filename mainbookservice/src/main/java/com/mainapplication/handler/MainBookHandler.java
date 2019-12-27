@@ -40,6 +40,7 @@ public class MainBookHandler {
 
     public Mono<ServerResponse> updateBook(ServerRequest request) {
         Mono<Book> book = request.bodyToMono(Book.class);
-        return ServerResponse.ok().contentType(APPLICATION_JSON).bodyValue(bookRepository.updateBook(book));
+        int bookId = Integer.parseInt(request.pathVariable("id"));
+        return ServerResponse.ok().contentType(APPLICATION_JSON).bodyValue(bookRepository.updateBook(book, bookId));
     }
 }

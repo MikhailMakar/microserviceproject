@@ -1,23 +1,40 @@
 package com.middlewareapplication.webclient;
 
 import com.middlewareapplication.model.Book;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class BookWebClient {
 
-    private WebClient client = WebClient.create("http://localhost:8094");
+    private final WebClient client = WebClient.create("http://localhost:8094");
 
-    private Mono<ClientResponse> result = client.get()
-            .uri("/book")
-            .accept(MediaType.APPLICATION_JSON)
-            .exchange();
+    public Flux<Book> listOfBooks() {
+        return client.get()
+                .uri("/book")
+                .retrieve()
+                .bodyToFlux(Book.class);
+    }
 
-    private Mono<Book> singleBook = client.get()
-            .uri("/book/1")
-            .accept(MediaType.APPLICATION_JSON)
-            .exchange()
-            .flatMap(res -> res.bodyToMono(Book.class));
+    public Mono<Book> getBookById(int id) {
+        return client.get()
+                .uri("/book/" + id)
+                .retrieve()
+                .bodyToMono(Book.class);
+    }
+
+    public void createBook(Mono<Book> bookMono) {
+        client.post()
+                .uri("/book/create")
+                .body(BodyInserters.fromValue(bookMono));
+    }
+
+    public Mono<Book> updateBook(Mono<Book> bookMono, int id) {
+        return client.put()
+                .uri("book/" + id + "/update")
+                .retrieve()
+                .bodyToMono(Book.class);
+    }
+
 }

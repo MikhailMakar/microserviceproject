@@ -9,7 +9,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
-import static org.springframework.web.reactive.function.server.RequestPredicates.contentType;
 
 @Configuration
 public class MiddlewareBookRouter {
@@ -21,6 +20,6 @@ public class MiddlewareBookRouter {
                 .route(GET("/book/{id}").and(accept(APPLICATION_JSON)), middlewareBookHandler::getBook)
                 .andRoute(GET("/book").and(accept(APPLICATION_JSON)), middlewareBookHandler::listBooks)
                 .andRoute(POST("/book/create").and(contentType(APPLICATION_JSON)), middlewareBookHandler::createBook)
-                .andRoute(PUT("book/update").and(contentType(APPLICATION_JSON)), middlewareBookHandler::updateBook);
+                .andRoute(PUT("book/{id}/update").and(contentType(APPLICATION_JSON)), middlewareBookHandler::updateBook);
     }
 }
