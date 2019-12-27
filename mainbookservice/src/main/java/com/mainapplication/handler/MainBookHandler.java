@@ -10,11 +10,11 @@ import reactor.core.publisher.Mono;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-public class BookHandler {
+public class MainBookHandler {
 
     private final BookRepository bookRepository;
 
-    public BookHandler(BookRepository bookRepository) {
+    public MainBookHandler(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
@@ -36,5 +36,10 @@ public class BookHandler {
     public Mono<ServerResponse> createBook(ServerRequest request) {
         Mono<Book> book = request.bodyToMono(Book.class);
         return ServerResponse.ok().build(bookRepository.saveBook(book));
+    }
+
+    public Mono<ServerResponse> updateBook(ServerRequest request) {
+        Mono<Book> book = request.bodyToMono(Book.class);
+        return ServerResponse.ok().contentType(APPLICATION_JSON).bodyValue(bookRepository.updateBook(book));
     }
 }

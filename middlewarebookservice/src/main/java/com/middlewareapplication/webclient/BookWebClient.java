@@ -1,6 +1,6 @@
-package com.mainapplication.webclient;
+package com.middlewareapplication.webclient;
 
-import com.mainapplication.model.Book;
+import com.middlewareapplication.model.Book;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
