@@ -11,7 +11,7 @@ public class BookWebClient {
 
     public Flux<Book> listOfBooks() {
         return client.get()
-                .uri("/book")
+                .uri("/books")
                 .retrieve()
                 .bodyToFlux(Book.class);
     }
@@ -25,7 +25,7 @@ public class BookWebClient {
 
     public Mono<Book> createBook(Book book) {
         return client.post()
-                .uri("/book/create")
+                .uri("/book")
                 .bodyValue(book)
                 .retrieve()
                 .bodyToMono(Book.class);
@@ -33,7 +33,7 @@ public class BookWebClient {
 
     public Mono<Book> updateBook(Book book, int id) {
         return client.put()
-                .uri("book/" + id + "/update")
+                .uri("book/" + id)
                 .bodyValue(book)
                 .retrieve()
                 .bodyToMono(Book.class);

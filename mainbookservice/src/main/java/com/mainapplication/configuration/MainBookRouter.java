@@ -21,8 +21,8 @@ public class MainBookRouter {
         MainBookHandler mainBookHandler = new MainBookHandler(repository);
         return RouterFunctions
                 .route(GET("/book/{id}").and(accept(APPLICATION_JSON)), mainBookHandler::getBook)
-                .andRoute(GET("/book").and(accept(APPLICATION_JSON)), mainBookHandler::listBooks)
-                .andRoute(POST("/book/create").and(contentType(APPLICATION_JSON)), mainBookHandler::createBook)
-                .andRoute(PUT("book/{id}/update").and(contentType(APPLICATION_JSON)), mainBookHandler::updateBook);
+                .andRoute(GET("/books").and(accept(APPLICATION_JSON)), mainBookHandler::listBooks)
+                .andRoute(POST("/book").and(contentType(APPLICATION_JSON)), mainBookHandler::createBook)
+                .andRoute(PUT("book/{id}").and(contentType(APPLICATION_JSON)), mainBookHandler::updateBook);
     }
 }
