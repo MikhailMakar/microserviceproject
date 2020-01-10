@@ -31,8 +31,9 @@ public class MiddlewareBookHandler {
 
     public Mono<ServerResponse> createBook(ServerRequest request) {
         Mono<Book> book = request.bodyToMono(Book.class);
-        bookWebClient.createBook(book);
-        return ServerResponse.ok().build();
+        return book
+                .flatMap(bookWebClient::createBook)
+                .flatMap(it -> ServerResponse.ok().bodyValue(it));
     }
 
     public Mono<ServerResponse> updateBook(ServerRequest request) {

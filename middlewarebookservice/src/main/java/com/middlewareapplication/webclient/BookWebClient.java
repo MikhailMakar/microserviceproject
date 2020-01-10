@@ -1,7 +1,6 @@
 package com.middlewareapplication.webclient;
 
 import com.middlewareapplication.model.Book;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -24,10 +23,12 @@ public class BookWebClient {
                 .bodyToMono(Book.class);
     }
 
-    public void createBook(Mono<Book> bookMono) {
-        client.post()
+    public Mono<Book> createBook(Book book) {
+        return client.post()
                 .uri("/book/create")
-                .body(BodyInserters.fromValue(bookMono));
+                .bodyValue(book)
+                .retrieve()
+                .bodyToMono(Book.class);
     }
 
     public Mono<Book> updateBook(Mono<Book> bookMono, int id) {
@@ -36,5 +37,4 @@ public class BookWebClient {
                 .retrieve()
                 .bodyToMono(Book.class);
     }
-
 }

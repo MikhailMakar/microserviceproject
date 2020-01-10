@@ -2,7 +2,6 @@ package com.mainapplication.handler;
 
 import com.mainapplication.model.Book;
 import com.mainapplication.repository.BookRepository;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
@@ -29,13 +28,13 @@ public class MainBookHandler {
         Mono<Book> bookMono = bookRepository.getBookById(bookId);
         return bookMono.flatMap(book -> ServerResponse.ok()
                 .contentType(APPLICATION_JSON)
-                .body(BodyInserters.fromValue(book)))
+                .bodyValue(book))
                 .switchIfEmpty(notFound);
     }
 
     public Mono<ServerResponse> createBook(ServerRequest request) {
         Mono<Book> book = request.bodyToMono(Book.class);
-        return ServerResponse.ok().build(bookRepository.saveBook(book));
+        return bookRepository.saveBook(book).flatMap(it -> ServerResponse.ok().bodyValue(it));
     }
 
     public Mono<ServerResponse> updateBook(ServerRequest request) {

@@ -30,9 +30,8 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Mono<Void> saveBook(Mono<Book> book) {
-        Mono<Book> bookMono = book.doOnNext(value -> bookMap.put((bookMap.keySet().size() + 1), value));
-        return bookMono.then();
+    public Mono<Book> saveBook(Mono<Book> book) {
+        return book.flatMap(it -> Mono.justOrEmpty(bookMap.put(bookMap.size() + 1, it)));
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface BookRepository {
 
     Mono<Book> updateBook(Mono<Book> book, int id);
 
-    Mono<Void> saveBook(Mono<Book> book);
+    Mono<Book> saveBook(Mono<Book> book);
 
     Flux<Book> getAllBooks();
 }
