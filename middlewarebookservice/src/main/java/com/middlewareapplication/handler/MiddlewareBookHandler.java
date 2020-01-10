@@ -39,6 +39,8 @@ public class MiddlewareBookHandler {
     public Mono<ServerResponse> updateBook(ServerRequest request) {
         Mono<Book> book = request.bodyToMono(Book.class);
         int bookId = Integer.parseInt(request.pathVariable("id"));
-        return ServerResponse.ok().contentType(APPLICATION_JSON).bodyValue(bookWebClient.updateBook(book, bookId));
+        return book
+                .flatMap(it -> bookWebClient.updateBook(it, bookId))
+                .flatMap(it -> ServerResponse.ok().bodyValue(it));
     }
 }
