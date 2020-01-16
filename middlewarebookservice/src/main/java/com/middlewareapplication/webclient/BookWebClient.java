@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 public class BookWebClient {
 
-    private final WebClient client = WebClient.create("http://localhost:8094");
+    private final WebClient client = WebClient.create("http://mainbookservice:8094");
 
     public Flux<Book> listOfBooks() {
         return client.get()

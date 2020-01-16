@@ -2,12 +2,12 @@ spring:
   cloud:
     config:
       name: gateway
-      uri: http://localhost:8090
+      uri: http://config:8090
 #    discovery:
 #      service-id: config
 #      enabled: true
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8091/eureka/
+#
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://discovery:8091/eureka/

@@ -10,4 +10,4 @@ eureka:
     region: default
     registryFetchIntervalSeconds: 5
     serviceUrl:
-      defaultZone: http://localhost:8091/eureka/
+      defaultZone: http://discovery:8091/eureka/

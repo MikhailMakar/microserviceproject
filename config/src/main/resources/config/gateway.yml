@@ -10,7 +10,7 @@ eureka:
     region: default
     registryFetchIntervalSeconds: 5
     serviceUrl:
-      defaultZone: http://localhost:8091/eureka/
+      defaultZone: http://discovery:8091/eureka/
 
 zuul:
   routes:
@@ -20,4 +20,4 @@ zuul:
       path: /main-service/**
     discovery:
       path: /discovery/**
-      url: http://localhost:8091
+      url: http://discovery:8091

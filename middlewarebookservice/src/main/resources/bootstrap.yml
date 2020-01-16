@@ -2,9 +2,4 @@ spring:
   cloud:
     config:
       name: middleware-service
-      uri: http://localhost:8090
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8091/eureka/
+      uri: http://config:8090
