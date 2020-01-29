@@ -4,4 +4,3 @@ include 'discovery'
 include 'gateway'
 include 'middlewarebookservice'
 include 'mainbookservice'
-

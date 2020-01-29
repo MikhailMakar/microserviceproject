@@ -10,7 +10,7 @@ services:
       context: ./discovery
       dockerfile: Dockerfile
     ports:
-    - 8091:8091
+      - 8091:8091
     depends_on:
       - config
     entrypoint: ["./wait-for-it.sh", "config:8090", "--", "java", "-jar", "./build/libs/discovery-1.0-SNAPSHOT.jar"]
@@ -19,7 +19,7 @@ services:
       context: ./gateway
       dockerfile: Dockerfile
     ports:
-    - 8092:8092
+      - 8092:8092
     depends_on:
       - discovery
     entrypoint: ["./wait-for-it.sh", "discovery:8091", "-t", "30", "--", "java", "-jar", "./build/libs/gateway-1.0-SNAPSHOT.jar"]
@@ -28,16 +28,16 @@ services:
       context: ./mainbookservice
       dockerfile: Dockerfile
     ports:
-    - 8094:8094
+      - 8094:8094
     depends_on:
       - discovery
-    entrypoint: ["./wait-for-it.sh", "discovery:8091", "-t", "30", "--", "java", "-jar", "./build/libs/mainbookservice-1.0-SNAPSHOT.jar"]
+    entrypoint: ["./wait-for-it.sh", "gateway:8092", "-t", "30", "--", "java", "-jar", "./build/libs/mainbookservice-1.0-SNAPSHOT.jar"]
   middlewarebookservice:
     build:
       context: ./middlewarebookservice
       dockerfile: Dockerfile
     ports:
-    - 8093:8093
+      - 8093:8093
     depends_on:
       - discovery
-    entrypoint: ["./wait-for-it.sh", "discovery:8091", "-t", "30", "--", "java", "-jar", "./build/libs/middlewarebookservice-1.0-SNAPSHOT.jar"]
+    entrypoint: ["./wait-for-it.sh", "gateway:8092", "-t", "30", "--", "java", "-jar", "./build/libs/middlewarebookservice-1.0-SNAPSHOT.jar"]
