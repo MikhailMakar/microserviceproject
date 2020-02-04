@@ -21,6 +21,9 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '2.2.0.RELEASE'
     compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compile group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '3.2.1.RELEASE'
+    compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.5.1'
+    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.5.1'
 }
 
 springBoot {

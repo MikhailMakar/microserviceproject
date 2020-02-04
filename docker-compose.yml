@@ -1,10 +1,19 @@
 version: '3.0'
 services:
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+    hostname: elastic
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
   config:
     build:
       context: ./config
       dockerfile: Dockerfile
-    entrypoint: ["java", "-jar", "./build/libs/config-1.0-SNAPSHOT.jar"]
+    entrypoint: ["./wait-for-it.sh", "elastic:9200", "-t", "60", "--", "java", "-jar", "./build/libs/config-1.0-SNAPSHOT.jar"]
+    depends_on:
+      - elastic
   discovery:
     build:
       context: ./discovery
@@ -13,7 +22,7 @@ services:
       - 8091:8091
     depends_on:
       - config
-    entrypoint: ["./wait-for-it.sh", "config:8090", "--", "java", "-jar", "./build/libs/discovery-1.0-SNAPSHOT.jar"]
+    entrypoint: ["./wait-for-it.sh", "config:8090", "-t", "60", "--", "java", "-jar", "./build/libs/discovery-1.0-SNAPSHOT.jar"]
   gateway:
     build:
       context: ./gateway
@@ -22,16 +31,7 @@ services:
       - 8092:8092
     depends_on:
       - discovery
-    entrypoint: ["./wait-for-it.sh", "discovery:8091", "-t", "30", "--", "java", "-jar", "./build/libs/gateway-1.0-SNAPSHOT.jar"]
-  mainbookservice:
-    build:
-      context: ./mainbookservice
-      dockerfile: Dockerfile
-    ports:
-      - 8094:8094
-    depends_on:
-      - discovery
-    entrypoint: ["./wait-for-it.sh", "gateway:8092", "-t", "30", "--", "java", "-jar", "./build/libs/mainbookservice-1.0-SNAPSHOT.jar"]
+    entrypoint: ["./wait-for-it.sh", "discovery:8091", "-t", "60", "--", "java", "-jar", "./build/libs/gateway-1.0-SNAPSHOT.jar"]
   middlewarebookservice:
     build:
       context: ./middlewarebookservice
@@ -39,5 +39,14 @@ services:
     ports:
       - 8093:8093
     depends_on:
-      - discovery
-    entrypoint: ["./wait-for-it.sh", "gateway:8092", "-t", "30", "--", "java", "-jar", "./build/libs/middlewarebookservice-1.0-SNAPSHOT.jar"]
+      - gateway
+    entrypoint: ["./wait-for-it.sh", "gateway:8092", "-t", "120", "--", "java", "-jar", "./build/libs/middlewarebookservice-1.0-SNAPSHOT.jar"]
+  mainbookservice:
+    build:
+      context: ./mainbookservice
+      dockerfile: Dockerfile
+    ports:
+      - 8094:8094
+    depends_on:
+      - gateway
+    entrypoint: ["./wait-for-it.sh", "gateway:8092", "-t", "120", "--", "java", "-jar", "./build/libs/mainbookservice-1.0-SNAPSHOT.jar"]

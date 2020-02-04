@@ -11,3 +11,7 @@ eureka:
     registryFetchIntervalSeconds: 5
     serviceUrl:
       defaultZone: http://discovery:8091/eureka/
+
+elasticsearch:
+  hostname: elastic
+  port: 9200
