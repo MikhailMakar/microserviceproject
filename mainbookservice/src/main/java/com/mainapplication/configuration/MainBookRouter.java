@@ -1,8 +1,7 @@
 package com.mainapplication.configuration;
 
 import com.mainapplication.handler.MainBookHandler;
-import com.mainapplication.repository.BookRepository;
-import com.mainapplication.repository.BookRepositoryImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -13,16 +12,17 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 
 @Configuration
+@RequiredArgsConstructor
 public class MainBookRouter {
+
+    private final MainBookHandler mainBookHandler;
 
     @Bean
     public RouterFunction<ServerResponse> route() {
-        BookRepository repository = new BookRepositoryImpl();
-        MainBookHandler mainBookHandler = new MainBookHandler(repository);
         return RouterFunctions
                 .route(GET("/book/{id}").and(accept(APPLICATION_JSON)), mainBookHandler::getBook)
                 .andRoute(GET("/books").and(accept(APPLICATION_JSON)), mainBookHandler::listBooks)
                 .andRoute(POST("/book").and(contentType(APPLICATION_JSON)), mainBookHandler::createBook)
-                .andRoute(PUT("book/{id}").and(contentType(APPLICATION_JSON)), mainBookHandler::updateBook);
+                .andRoute(PUT("/book").and(contentType(APPLICATION_JSON)), mainBookHandler::updateBook);
     }
 }

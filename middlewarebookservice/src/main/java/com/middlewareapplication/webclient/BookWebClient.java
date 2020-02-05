@@ -31,9 +31,9 @@ public class BookWebClient {
                 .bodyToMono(Book.class);
     }
 
-    public Mono<Book> updateBook(Book book, int id) {
+    public Mono<Book> updateBook(Book book) {
         return client.put()
-                .uri("book/" + id)
+                .uri("/book")
                 .bodyValue(book)
                 .retrieve()
                 .bodyToMono(Book.class);

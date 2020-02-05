@@ -20,6 +20,6 @@ public class MiddlewareBookRouter {
                 .route(GET("/book/{id}").and(accept(APPLICATION_JSON)), middlewareBookHandler::getBook)
                 .andRoute(GET("/books").and(accept(APPLICATION_JSON)), middlewareBookHandler::listBooks)
                 .andRoute(POST("/book").and(contentType(APPLICATION_JSON)), middlewareBookHandler::createBook)
-                .andRoute(PUT("book/{id}").and(contentType(APPLICATION_JSON)), middlewareBookHandler::updateBook);
+                .andRoute(PUT("/book").and(contentType(APPLICATION_JSON)), middlewareBookHandler::updateBook);
     }
 }
